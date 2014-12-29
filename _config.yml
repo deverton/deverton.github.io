@@ -2,10 +2,15 @@
 title: Dan Everton
 email: dan@iocaine.org
 description: Dan Everton's Scribblings
-baseurl: ""
-url: "http://www.iocaine.org"
+url: https://www.iocaine.org
 twitter_username: dan_everton
 github_username:  deverton
 
-# Build settings
+# Jekyll configuration
 markdown: kramdown
+gems:
+    - jekyll-mentions
+    - jemoji
+    - jekyll-redirect-from
+    - jekyll-sitemap
+
