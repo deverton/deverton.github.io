@@ -1,6 +1,8 @@
 ---
 title: Getting Started With Github Pages and Jekyll on OS X
 layout: post
+category: posts
+tags: [development, ruby, rbenv, osx, jekyll, homebrew]
 ---
 
 This isn't necessarily the best way but here's how I went about getting
@@ -92,7 +94,7 @@ should create all the needed files. You can then test things out with
 
     jekyll serve
 
-which creates a webserver on port 4000 serving up your site. Once your
+which creates a webserver on port 4000 serving up your site. Once you're
 happy, you can now commit your changes, push them to Github and see your
-new, Jekyll powered site :tada:
+new, Jekyll powered sites :tada:
 
