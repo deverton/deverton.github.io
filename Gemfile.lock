@@ -90,28 +90,11 @@ GEM
       rb-inotify (>= 0.9)
     maruku (0.7.0)
     mercenary (0.3.5)
-    mini_portile (0.6.1)
+    mini_portile (0.6.2)
     minitest (5.5.0)
     net-dns (0.8.0)
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
-    octopress (3.0.0.rc.23)
-      jekyll (~> 2.0)
-      mercenary (~> 0.3.2)
-      octopress-deploy
-      octopress-docs
-      titlecase
-    octopress-deploy (1.0.1)
-      colorator
-      octopress-docs
-    octopress-docs (0.0.13)
-      jekyll (~> 2.0)
-      octopress-escape-code (~> 2.0)
-      octopress-hooks (~> 2.0)
-    octopress-escape-code (2.0.1)
-      octopress-hooks (~> 2.0)
-    octopress-hooks (2.2.3)
-      jekyll (~> 2.0)
     parslet (1.5.0)
       blankslate (~> 2.0)
     posix-spawn (0.3.9)
@@ -130,7 +113,6 @@ GEM
     thread_safe (0.3.4)
     timers (4.0.1)
       hitimes
-    titlecase (0.1.1)
     toml (0.1.2)
       parslet (~> 1.5.0)
     tzinfo (1.2.2)
@@ -142,4 +124,3 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
-  octopress (~> 3.0.0.rc.12)
