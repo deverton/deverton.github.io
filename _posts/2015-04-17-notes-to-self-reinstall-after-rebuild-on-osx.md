@@ -1,5 +1,5 @@
 ---
-title: Notes To Self: Reinstall After Rebuild on OS X
+title: Notes To Self - Reinstall After Rebuild on OS X
 layout: post
 category: posts
 tags: [notes, osx, homebrew]
