@@ -292,3 +292,11 @@ pitfalls and possible workarounds.
   Docker deployments to succeed.
 
 
+Final General Session
+---------------------
+
+I don't have too many notes from this, but I do remember one of the more
+impressive final demonstrations was the live migration of a Quake 3
+server while players were connected. You can watch it here
+https://www.youtube.com/watch?v=mL9AFkJJAq0
+
