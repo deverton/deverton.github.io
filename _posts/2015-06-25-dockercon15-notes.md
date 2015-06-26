@@ -5,7 +5,7 @@ category: posts
 tags: [notes, docker, aws, aws ecs]
 ---
 
-NOTE: As of 2014-05-26 This is still somewhat of a draft and may be updated
+NOTE: As of 2015-05-26 This is still somewhat of a draft and may be updated
 
 I was lucky enough to be able to attend
 [DockerCon 2015](http://www.dockercon.com/) in San Francisco this year.
