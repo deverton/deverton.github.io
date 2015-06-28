@@ -5,13 +5,13 @@ category: posts
 tags: [notes, docker, aws, aws ecs]
 ---
 
-NOTE: As of 2015-05-26 This is still somewhat of a draft and may be updated
-
 I was lucky enough to be able to attend
 [DockerCon 2015](http://www.dockercon.com/) in San Francisco this year.
 With over 2100 attendees it's one of the biggest tech conferences I've
 been to and the first one outside of Australia. I learned a lot while I
 was there so I wanted to share my notes from the conference.
+
+NOTE: As of 2015-05-26 This is still somewhat of a draft and may be updated
 
 Resources
 =========
