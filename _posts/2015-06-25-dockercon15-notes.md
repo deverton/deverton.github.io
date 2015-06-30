@@ -22,7 +22,8 @@ and slides.
 * [DockerCon 2015 Keynote
   Videos](https://blog.docker.com/2015/06/dockercon-2015-keynote-videos/)
 * [DockerCon 2015 Videos: Day 1 of Docker, Docker, Docker](https://blog.docker.com/2015/06/dockercon-2015-videos-day-1-of-docker-docker-docker-2/)
-* [DockerCOn 2015 Videos: Day 2 of Docker, Docker, Docker](http://blog.docker.com/2015/06/dockercon-2015-videos-day-2-docker-docker-docker/)
+* [DockerCon 2015 Videos: Day 2 of Docker, Docker, Docker](http://blog.docker.com/2015/06/dockercon-2015-videos-day-2-docker-docker-docker/)
+* [DockerCon 2015 Videos: Day 1 of Advanced Tech](http://blog.docker.com/2015/06/dockercon-2015-videos-day-1-advanced-tech/)
 
 Day 1
 =====
