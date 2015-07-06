@@ -108,7 +108,7 @@ later this year. Other interesting bits:
   [Eureka](https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance) for service discovery and advertising.
 * For container [IAM](http://aws.amazon.com/iam/) roles, each AWS API call goes through a security
   proxy that verifies the source IP (since each container has an IP) and
-  container is authorized to use that role. Uses [STS](http://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html) to generated temporary
+  container is authorized to use that role. Uses [STS](http://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html) to generate temporary
   credentials.
 
 
@@ -125,7 +125,7 @@ feature was only announced at the keynote.
 
 * Major functions of Docker will become pluggable though currently only
   networking and storage are completed. Logging coming soon.
-* Plugins are separate process that are talked to using JSON over HTTP
+* Plugins are separate processes that are talked to using JSON over HTTP
   via a domain socket. This enables plugins to be written in any
   language.
 * Since plugins are processes, they can also be containers which
