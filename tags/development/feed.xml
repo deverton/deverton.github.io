@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://gohugo.io/" version="0.90.1">Hugo</generator><title type="html">development on Dan Everton</title><subtitle type="html">Notes on tech and other topics</subtitle><link href="https://www.iocaine.org/tags/development/" rel="alternate" type="text/html" title="HTML"/><link href="https://www.iocaine.org/tags/development/feed.xml" rel="self" type="application/atom+xml" title="Atom"/><updated>2021-12-14T03:34:57+00:00</updated><id>https://www.iocaine.org/tags/development/</id><entry><title type="html">Experimenting with Terraform, Consul, and Amazon EC2</title><link href="https://www.iocaine.org/post/2015-01-05-experimenting-with-terraform-consul-and-amazon-ec2/?utm_source=atom_feed" rel="alternate" type="text/html" hreflang="en"/><id>https://www.iocaine.org/post/2015-01-05-experimenting-with-terraform-consul-and-amazon-ec2/</id><published>2015-01-05T00:00:00+00:00</published><updated>2021-12-14T13:31:46+10:00</updated><content type="html"><![CDATA[<p>One of the things I&rsquo;ve been experimenting with is
+<a class="gblog-markdown__link" href="http://www.terraform.io/">Terraform</a> from Hashicorp. It provides a
+simple configuration language for describing infrastructure that fills
+in the gap left by configuration tools like Puppet, Salt, and Ansible.
+Those tools can only describe what happens after a machine is created,
+not how to create that machine.</p>
+<p>I thought I&rsquo;d try and create the beginnings of a typical production test
+environment with split public and private networks. None of these
+networks are visible outside of the VPC. Instead a bastion host is used
+that also doubles as the NAT gateway.</p>
+<p>To simplify service discovery I also deployed Consul to act as the DNS
+provider for hosts within the VPC. I started this work before Route 53
+supported split-horizon DNS so I&rsquo;m not sure if you still need to use
+Consul for this.</p>
+<p>You can see the result of the experiment on my
+<a class="gblog-markdown__link" href="https://github.com/deverton/terraform-aws-consul">terraform-aws-consul</a>
+respository on Github. It should work out of the box with Terraform
+0.3.5 which was the latest at time of writing. The readme in that
+repository should cover the details of how to get going. Only
+<code>t2.micro</code> instances are used so it should cost you nothing (or very
+little) to deploy.</p>
+<p>There&rsquo;s a few things I had to figure out along the way that weren&rsquo;t
+particularly obvious. The trickiest was getting the cloud-init files for
+userdata in to the right MIME multi-part format and keeping them in-sync
+with the component files. I hadn&rsquo;t written a Makefile in years but it
+neatly solved the problem of running <code>write-mime-multipart</code> when
+needed.</p>
+<p>Another trick was realising that you can tag instances in EC2 with
+<code>Name</code> and that will control the instance name on the EC2 dashboard.
+This was particularly handy for the Consul member nodes to make them
+easy to identify as <code>consul1</code>, <code>consul2</code>, etc.</p>
+<p>The final trick was getting the DHCP settings sorted for Amazon Linux so
+that the instances would still get IPs from DNS, but have a
+<code>resolv.conf</code> modified to use a local Consul instance for DNS. This
+turned out actually be supported by modifying the <code>dhclient</code>
+configuration in cloud-init.</p>
+<p>While this experiment doesn&rsquo;t actually do all that much in the end, it
+seems like a good starting point. From here I&rsquo;d like to actually deploy
+some applications and have them register with Consul. In a different
+experiment I&rsquo;ve used <a class="gblog-markdown__link" href="http://mesos.apache.org/">Mesos</a> and
+<a class="gblog-markdown__link" href="https://github.com/mesosphere/marathon">Marathon</a> for this, but that&rsquo;s
+another post.</p>
+]]></content><category scheme="https://www.iocaine.org/tags/development" term="development" label="development"/><category scheme="https://www.iocaine.org/tags/terraform" term="terraform" label="terraform"/><category scheme="https://www.iocaine.org/tags/consul" term="consul" label="consul"/><category scheme="https://www.iocaine.org/tags/ec2" term="ec2" label="ec2"/><category scheme="https://www.iocaine.org/tags/amazon" term="amazon" label="amazon"/></entry><entry><title type="html">Getting Started With Github Pages and Jekyll on OS X</title><link href="https://www.iocaine.org/post/2014-12-29-getting-started-with-github-pages-and-jekyll-on-osx/?utm_source=atom_feed" rel="alternate" type="text/html" hreflang="en"/><id>https://www.iocaine.org/post/2014-12-29-getting-started-with-github-pages-and-jekyll-on-osx/</id><published>2014-12-29T00:00:00+00:00</published><updated>2021-12-14T13:31:46+10:00</updated><content type="html"><![CDATA[<p>This isn&rsquo;t necessarily the best way but here&rsquo;s how I went about getting
+<a class="gblog-markdown__link" href="http://jekyllrb.com/">Jekyll</a> going on my local machine in preparation for
+using <a class="gblog-markdown__link" href="https://pages.github.com/">Github Pages</a> to server content for my
+web page.</p>
+<div class="gblog-post__anchorwrap">
+    <h2 id="installing-a-separate-version-of-ruby">
+        Installing a Separate Version of Ruby
+        <a data-clipboard-text="https://www.iocaine.org/post/2014-12-29-getting-started-with-github-pages-and-jekyll-on-osx/#installing-a-separate-version-of-ruby" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Installing a Separate Version of Ruby" href="#installing-a-separate-version-of-ruby">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p>As Jekyll requires a whole mess of Ruby Gems to get going I decided it
+would be best to install a separate Ruby instance to avoid messing with
+the OS X system Ruby. I&rsquo;m using Mac OS X 10.10 (Yosemite) for this and
+I&rsquo;ve already got <a class="gblog-markdown__link" href="http://brew.sh/">Homebrew</a> installed which makes it
+very easy to install extra tools on OS X.</p>
+<p>I chose <a class="gblog-markdown__link" href="https://github.com/sstephenson/rbenv">rbenv</a> as it&rsquo;s the simplest
+of the tools to manage multiple Ruby installs. It has a companion tool
+called <a class="gblog-markdown__link" href="https://github.com/sstephenson/ruby-build">ruby-build</a> that can
+build any version of Ruby we need. So assuming you have Homebrew installed,
+getting these installed is as simple as:</p>
+<pre><code>brew install rbenv ruby-build
+</code></pre>
+<p>Then add the following snippet somewhere your shell will read it.</p>
+<pre><code>if which rbenv &gt; /dev/null; then eval &quot;$(rbenv init -)&quot;; fi
+</code></pre>
+<p>After relaunching your shell (or just manually executing the above
+snippet in the current shell) installing a separate Ruby is as simple as</p>
+<pre><code>rbenv install 2.2.0
+</code></pre>
+<p>I&rsquo;ve chosen to use the latest Ruby (2.2.0 at time of writing) because
+why not. Once that&rsquo;s done installing you should be able to execute</p>
+<pre><code>rbenv versions
+</code></pre>
+<p>which results in output like this:</p>
+<pre><code>* system (set by /Users/deverton/.rbenv/version)
+  2.2.0
+</code></pre>
+<p>This shows the system installed Ruby and our just installed 2.2.0
+version. We can switch to that version with a quick</p>
+<pre><code>rbenv global 2.2.0
+</code></pre>
+<p>Now the output of <code>rbenv versions</code> should look like this:</p>
+<pre><code>  system (set by /Users/deverton/.rbenv/version)
+* 2.2.0
+</code></pre>
+<div class="gblog-post__anchorwrap">
+    <h2 id="installing-jekyll">
+        Installing Jekyll
+        <a data-clipboard-text="https://www.iocaine.org/post/2014-12-29-getting-started-with-github-pages-and-jekyll-on-osx/#installing-jekyll" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Installing Jekyll" href="#installing-jekyll">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p>The next step is to create somewhere for your site content to go. Rather
+than document that here, follow the instructions at
+<a class="gblog-markdown__link" href="https://pages.github.com/">Github</a>.</p>
+<p>Now that you&rsquo;ve got a directory with your site content checked out it&rsquo;s
+time to get Jekyll installed. It&rsquo;s easiest to use
+<a class="gblog-markdown__link" href="http://bundler.io/">Bundler</a> to manage the install so to that end if
+you do the following:</p>
+<pre><code>gem install bundle
+rbenv rehash
+</code></pre>
+<p>You&rsquo;ll have the latest Bundler installed and available on the path. You
+can now create a <code>Gemfile</code> with the following contents</p>
+<pre><code>source 'https://rubygems.org'
+gem 'github-pages'
+</code></pre>
+<p>then execute</p>
+<pre><code>bundle install
+rbenv rehash
+</code></pre>
+<p>which will install all the gems we need and the command line tools. We
+can now use Jekyll to create all the basic files needed for the site.
+Assuming you&rsquo;re currect directory is your site directory:</p>
+<pre><code>jekyll new .
+</code></pre>
+<p>should create all the needed files. You can then test things out with</p>
+<pre><code>jekyll serve
+</code></pre>
+<p>which creates a webserver on port 4000 serving up your site. Once you&rsquo;re
+happy, you can now commit your changes, push them to Github and see your
+new, Jekyll powered sites 🎉</p>
+]]></content><category scheme="https://www.iocaine.org/tags/development" term="development" label="development"/><category scheme="https://www.iocaine.org/tags/ruby" term="ruby" label="ruby"/><category scheme="https://www.iocaine.org/tags/rbenv" term="rbenv" label="rbenv"/><category scheme="https://www.iocaine.org/tags/osx" term="osx" label="osx"/><category scheme="https://www.iocaine.org/tags/jekyll" term="jekyll" label="jekyll"/><category scheme="https://www.iocaine.org/tags/homebrew" term="homebrew" label="homebrew"/></entry></feed>

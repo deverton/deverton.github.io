@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://gohugo.io/" version="0.90.1">Hugo</generator><title type="html">Amazon Linux on Dan Everton</title><subtitle type="html">Notes on tech and other topics</subtitle><link href="https://www.iocaine.org/tags/Amazon-Linux/" rel="alternate" type="text/html" title="HTML"/><link href="https://www.iocaine.org/tags/Amazon-Linux/feed.xml" rel="self" type="application/atom+xml" title="Atom"/><updated>2021-12-14T03:34:57+00:00</updated><id>https://www.iocaine.org/tags/Amazon-Linux/</id><entry><title type="html">Generating Self-Signed Certificates with Subject Alternative Names</title><link href="https://www.iocaine.org/post/2016-09-13-self-signed-cert-with-subject-alt-names/?utm_source=atom_feed" rel="alternate" type="text/html" hreflang="en"/><id>https://www.iocaine.org/post/2016-09-13-self-signed-cert-with-subject-alt-names/</id><published>2016-09-13T00:00:00+00:00</published><updated>2021-12-14T13:31:46+10:00</updated><content type="html"><![CDATA[<p>Recently, for reasons, I had to generate a self-signed certificate with subject alternative names. As an additional wrinkle, I was trying to do it as part of the userdata script for a machine instance in EC2 running Amazon Linux. This turned out to be more difficult than expected.</p>
+<p>After piecing together various blog posts this is what I ended up with.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Shell" data-lang="Shell"><span class="nv">LOCAL_HOSTNAME</span><span class="o">=</span><span class="k">$(</span>GET http://169.254.169.254/latest/meta-data/local-hostname<span class="k">)</span>
+<span class="nv">LOCAL_IPV4</span><span class="o">=</span><span class="k">$(</span>GET http://169.254.169.254/latest/meta-data/local-ipv4<span class="k">)</span>
+openssl req <span class="se">\
+</span><span class="se"></span>    -newkey rsa:2048 <span class="se">\
+</span><span class="se"></span>    -nodes <span class="se">\
+</span><span class="se"></span>    -sha256 <span class="se">\
+</span><span class="se"></span>    -x509 <span class="se">\
+</span><span class="se"></span>    -days <span class="m">3650</span> <span class="se">\
+</span><span class="se"></span>    -config &lt;<span class="o">(</span>cat <span class="s">&lt;&lt;EOF
+</span><span class="s">[req]
+</span><span class="s">distinguished_name = req_distinguished_name
+</span><span class="s">x509_extensions = v3_req
+</span><span class="s">prompt = no
+</span><span class="s">[req_distinguished_name]
+</span><span class="s">C = US
+</span><span class="s">ST = California
+</span><span class="s">L = Los Angeles
+</span><span class="s">O = Example.com
+</span><span class="s">CN = $LOCAL_HOSTNAME
+</span><span class="s">[v3_req]
+</span><span class="s">keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+</span><span class="s">extendedKeyUsage = serverAuth
+</span><span class="s">subjectAltName = @alt_names
+</span><span class="s">[alt_names]
+</span><span class="s">DNS.1 = $LOCAL_HOSTNAME
+</span><span class="s">DNS.2 = $(hostname)
+</span><span class="s">IP.1 = $LOCAL_IPV4
+</span><span class="s">EOF</span>
+    <span class="o">)</span> <span class="se">\
+</span><span class="se"></span>    -keyout server.key <span class="se">\
+</span><span class="se"></span>    -out server.crt
+</code></pre></div><p>The above (almost) single line command:</p>
+<ol>
+<li>Fetches the private IP and hostname of the EC2 instance.</li>
+<li>Generates an new RSA private key with 2048 bits: <code>-newkey rsa:2048</code></li>
+<li>Doesn&rsquo;t require a password for the private key: <code>-nodes</code></li>
+<li>Use the SHA-2 signature algorithm (gotta keep your self-signed certs up to date with the cool kids): <code>-sha256</code></li>
+<li>Sets the expiry to 10 years: <code>-days 3650</code></li>
+<li>Passes in a custom openssl config: <code>-config ...</code></li>
+<li>Writes the private key to a file: <code>-keyout server.key</code></li>
+<li>Writes the public key to a file: <code>-keyout server.crt</code></li>
+</ol>
+<p>The custom config file</p>
+<ol>
+<li>Sets the distinguished name for the certificate</li>
+<li>Enables x509 extensions (needed for subjectAltName)</li>
+<li>Specfies that the key is for server authentication</li>
+<li>Sets the alternative names to the FQDN, the hostname, and the IP address of the instance.</li>
+</ol>
+<p>Generating a self-signed certificate this way at least means we can do host verification.</p>
+]]></content><category scheme="https://www.iocaine.org/tags/openssl" term="openssl" label="openssl"/><category scheme="https://www.iocaine.org/tags/certificates" term="certificates" label="certificates"/><category scheme="https://www.iocaine.org/tags/EC2" term="EC2" label="EC2"/><category scheme="https://www.iocaine.org/tags/Amazon-Linux" term="Amazon-Linux" label="Amazon Linux"/></entry></feed>

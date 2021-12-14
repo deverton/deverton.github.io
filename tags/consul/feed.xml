@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://gohugo.io/" version="0.90.1">Hugo</generator><title type="html">consul on Dan Everton</title><subtitle type="html">Notes on tech and other topics</subtitle><link href="https://www.iocaine.org/tags/consul/" rel="alternate" type="text/html" title="HTML"/><link href="https://www.iocaine.org/tags/consul/feed.xml" rel="self" type="application/atom+xml" title="Atom"/><updated>2021-12-14T03:34:57+00:00</updated><id>https://www.iocaine.org/tags/consul/</id><entry><title type="html">Experimenting with Terraform, Consul, and Amazon EC2</title><link href="https://www.iocaine.org/post/2015-01-05-experimenting-with-terraform-consul-and-amazon-ec2/?utm_source=atom_feed" rel="alternate" type="text/html" hreflang="en"/><id>https://www.iocaine.org/post/2015-01-05-experimenting-with-terraform-consul-and-amazon-ec2/</id><published>2015-01-05T00:00:00+00:00</published><updated>2021-12-14T13:31:46+10:00</updated><content type="html"><![CDATA[<p>One of the things I&rsquo;ve been experimenting with is
+<a class="gblog-markdown__link" href="http://www.terraform.io/">Terraform</a> from Hashicorp. It provides a
+simple configuration language for describing infrastructure that fills
+in the gap left by configuration tools like Puppet, Salt, and Ansible.
+Those tools can only describe what happens after a machine is created,
+not how to create that machine.</p>
+<p>I thought I&rsquo;d try and create the beginnings of a typical production test
+environment with split public and private networks. None of these
+networks are visible outside of the VPC. Instead a bastion host is used
+that also doubles as the NAT gateway.</p>
+<p>To simplify service discovery I also deployed Consul to act as the DNS
+provider for hosts within the VPC. I started this work before Route 53
+supported split-horizon DNS so I&rsquo;m not sure if you still need to use
+Consul for this.</p>
+<p>You can see the result of the experiment on my
+<a class="gblog-markdown__link" href="https://github.com/deverton/terraform-aws-consul">terraform-aws-consul</a>
+respository on Github. It should work out of the box with Terraform
+0.3.5 which was the latest at time of writing. The readme in that
+repository should cover the details of how to get going. Only
+<code>t2.micro</code> instances are used so it should cost you nothing (or very
+little) to deploy.</p>
+<p>There&rsquo;s a few things I had to figure out along the way that weren&rsquo;t
+particularly obvious. The trickiest was getting the cloud-init files for
+userdata in to the right MIME multi-part format and keeping them in-sync
+with the component files. I hadn&rsquo;t written a Makefile in years but it
+neatly solved the problem of running <code>write-mime-multipart</code> when
+needed.</p>
+<p>Another trick was realising that you can tag instances in EC2 with
+<code>Name</code> and that will control the instance name on the EC2 dashboard.
+This was particularly handy for the Consul member nodes to make them
+easy to identify as <code>consul1</code>, <code>consul2</code>, etc.</p>
+<p>The final trick was getting the DHCP settings sorted for Amazon Linux so
+that the instances would still get IPs from DNS, but have a
+<code>resolv.conf</code> modified to use a local Consul instance for DNS. This
+turned out actually be supported by modifying the <code>dhclient</code>
+configuration in cloud-init.</p>
+<p>While this experiment doesn&rsquo;t actually do all that much in the end, it
+seems like a good starting point. From here I&rsquo;d like to actually deploy
+some applications and have them register with Consul. In a different
+experiment I&rsquo;ve used <a class="gblog-markdown__link" href="http://mesos.apache.org/">Mesos</a> and
+<a class="gblog-markdown__link" href="https://github.com/mesosphere/marathon">Marathon</a> for this, but that&rsquo;s
+another post.</p>
+]]></content><category scheme="https://www.iocaine.org/tags/development" term="development" label="development"/><category scheme="https://www.iocaine.org/tags/terraform" term="terraform" label="terraform"/><category scheme="https://www.iocaine.org/tags/consul" term="consul" label="consul"/><category scheme="https://www.iocaine.org/tags/ec2" term="ec2" label="ec2"/><category scheme="https://www.iocaine.org/tags/amazon" term="amazon" label="amazon"/></entry></feed>

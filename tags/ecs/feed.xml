@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://gohugo.io/" version="0.90.1">Hugo</generator><title type="html">ecs on Dan Everton</title><subtitle type="html">Notes on tech and other topics</subtitle><link href="https://www.iocaine.org/tags/ecs/" rel="alternate" type="text/html" title="HTML"/><link href="https://www.iocaine.org/tags/ecs/feed.xml" rel="self" type="application/atom+xml" title="Atom"/><updated>2021-12-14T03:34:57+00:00</updated><id>https://www.iocaine.org/tags/ecs/</id><entry><title type="html">Amazon EC2 Container Service Wishlist</title><link href="https://www.iocaine.org/post/2015-09-01-amazon-ecs-wishlist/?utm_source=atom_feed" rel="alternate" type="text/html" hreflang="en"/><id>https://www.iocaine.org/post/2015-09-01-amazon-ecs-wishlist/</id><published>2015-09-01T00:00:00+00:00</published><updated>2021-12-14T13:31:46+10:00</updated><content type="html"><![CDATA[<p>I&rsquo;ve spent a lot of time with Amazon&rsquo;s <a class="gblog-markdown__link" href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html">EC2 Container
+Service</a>
+lately. While the service works well for the basic use case of deploying
+Docker containers in a cluster, there&rsquo;s quite a few missing features
+that would make life easier if Amazon implemented.</p>
+<p>The lack of IAM instance profiles for containers is probably the biggest
+issue for us. Without them, we have to go back to embedding access keys
+inside the application which introduces the whole mess of securely
+handling secrets. The upside is that it&rsquo;s forced us to look in to things
+like <a class="gblog-markdown__link" href="https://vaultproject.io/">Vault</a> which might provide a better long
+term solution anyway.</p>
+<p>The other big sticking point is the complete lack of any autoscaling
+support, either for container instances or for service task counts.
+Ideally you&rsquo;d have the ability to have the container instances scale
+up if tasks can&rsquo;t be placed due to a lack of resources. Services should
+also be able to scale up based on their usage of their resource
+allocations. To be fair you can sort of cobble together something with
+CloudWatch metrics, SNS, and a Lambda function but this is the sort of
+feature you&rsquo;d expect to be built-in from the start.</p>
+<p>We&rsquo;ve also had to build a fairly elaborate set of tools on top of ECS to
+allow us to do pre-release testing of service deployments. I know that
+ECS supports seamless releases, but sometimes you want to just check
+the deployed service is working <em>before</em> you cut the ELB listeners over
+to the new instances. More control over the release process would help a
+lot here.</p>
+<p>It would also be nice to have more control over placement of tasks in
+services. To allow, for example, to say &lsquo;this task needs to be on
+machines in this AZ&rsquo;, or &lsquo;this task needs to be on machines with lots of
+IO&rsquo;. You can probably work around this a bit by creating different
+clusters for different placements, but that gets very expensive fast and
+kind of defeats the purpose of a general cluster scheduler.</p>
+<p>When things go wrong in ECS it&rsquo;s also quite hard to get visibility of
+the logs. There&rsquo;s many moving parts (ECS Agent, Docker itself, the
+service) required to get an ECS service up and it can be very hard to
+tell which bit is having problems.</p>
+<p>There&rsquo;s also a bunch of nice to have features I&rsquo;d like to see like:</p>
+<ul>
+<li>integration of EBS volumes as Docker volumes</li>
+<li>any sort of tagging support of services or tasks</li>
+<li>periodic execution of tasks (e.g. cron style). The infrastructure is
+all there, it just needs the timer part</li>
+</ul>
+<p>Here&rsquo;s hoping that Amazon adds these features soon. AWS re:Invent is
+coming soon, maybe we&rsquo;ll see something there?</p>
+]]></content><category scheme="https://www.iocaine.org/tags/aws" term="aws" label="aws"/><category scheme="https://www.iocaine.org/tags/ecs" term="ecs" label="ecs"/><category scheme="https://www.iocaine.org/tags/docker" term="docker" label="docker"/></entry></feed>

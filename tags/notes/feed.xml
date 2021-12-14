@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://gohugo.io/" version="0.90.1">Hugo</generator><title type="html">notes on Dan Everton</title><subtitle type="html">Notes on tech and other topics</subtitle><link href="https://www.iocaine.org/tags/notes/" rel="alternate" type="text/html" title="HTML"/><link href="https://www.iocaine.org/tags/notes/feed.xml" rel="self" type="application/atom+xml" title="Atom"/><updated>2021-12-14T03:34:57+00:00</updated><id>https://www.iocaine.org/tags/notes/</id><entry><title type="html">DockerCon 2015 Notes</title><link href="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/?utm_source=atom_feed" rel="alternate" type="text/html" hreflang="en"/><id>https://www.iocaine.org/post/2015-06-25-dockercon15-notes/</id><published>2015-06-25T00:00:00+00:00</published><updated>2021-12-14T13:31:46+10:00</updated><content type="html"><![CDATA[<p>I was lucky enough to be able to attend
+<a class="gblog-markdown__link" href="http://www.dockercon.com/">DockerCon 2015</a> in San Francisco this year.
+With over 2100 attendees it&rsquo;s one of the biggest tech conferences I&rsquo;ve
+been to and the first one outside of Australia. I learned a lot while I
+was there so I wanted to share my notes from the conference.</p>
+<p>NOTE: As of 2015-05-26 This is still somewhat of a draft and may be updated</p>
+<div class="gblog-post__anchorwrap">
+    <h1 id="resources">
+        Resources
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#resources" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Resources" href="#resources">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h1>
+</div><p>If you want to watch the talks yourself, here&rsquo;s some links to the videos
+and slides.</p>
+<ul>
+<li><a class="gblog-markdown__link" href="https://blog.docker.com/2015/06/dockercon-2015-keynote-videos/">DockerCon 2015 Keynote
+Videos</a></li>
+<li><a class="gblog-markdown__link" href="https://blog.docker.com/2015/06/dockercon-2015-videos-day-1-of-docker-docker-docker-2/">DockerCon 2015 Videos: Day 1 of Docker, Docker, Docker</a></li>
+<li><a class="gblog-markdown__link" href="http://blog.docker.com/2015/06/dockercon-2015-videos-day-2-docker-docker-docker/">DockerCon 2015 Videos: Day 2 of Docker, Docker, Docker</a></li>
+<li><a class="gblog-markdown__link" href="http://blog.docker.com/2015/06/dockercon-2015-videos-day-1-advanced-tech/">DockerCon 2015 Videos: Day 1 of Advanced Tech</a></li>
+</ul>
+<div class="gblog-post__anchorwrap">
+    <h1 id="day-1">
+        Day 1
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#day-1" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Day 1" href="#day-1">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h1>
+</div><div class="gblog-post__anchorwrap">
+    <h2 id="general-session">
+        General Session
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#general-session" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor General Session" href="#general-session">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p>The key things out of the general session that started the day were:</p>
+<ul>
+<li>Docker itself is going through rapid growth in adoption and use.
+There were some very large growth numbers for things like the number
+of jobs mentioning Docker and the use of Docker hub.</li>
+<li>The Docker team have big ambitions around using containers and Docker
+to make development easier. Broadly this meant making building
+systems that could be distributed (in both &ldquo;deploying on multiple
+nodes&rdquo; and &ldquo;packaging in an easy to use manner&rdquo; senses) much easier.</li>
+<li>There&rsquo;s now <a class="gblog-markdown__link" href="https://blog.docker.com/2015/06/experimental-binary/">experimental releases of Docker</a> available to download for those that want to be
+on the &ldquo;bleeding edge&rdquo;.</li>
+<li>A <a class="gblog-markdown__link" href="http://blog.docker.com/2015/06/networking-receives-an-upgrade/">new networking system</a> has been added to Docker. This system allows for multi-host networking using <a class="gblog-markdown__link" href="https://en.wikipedia.org/wiki/Virtual_Extensible_LAN">VXLAN</a> tunnels to link containers on different machines. It also enables service discovery and advertising using DNS. Note that this feature requires a backing KV store (like <a class="gblog-markdown__link" href="https://consul.io/">Consul</a>] to be deployed.</li>
+<li>A <a class="gblog-markdown__link" href="http://blog.docker.com/2015/06/extending-docker-with-plugins/">plugin
+system</a>
+for Docker that initially allows for the network and volume systems to
+be extended. The plugin interface is fairly limited so far, but already
+plugins can be added to enable some neat tricks like live container
+migration including volumes and data.</li>
+<li>Deepak Singh from Amazon announced that the EC2 Container Service (ECS)
+will support Docker Swarm and Docker Compose later this year. This
+is a big announcement for me as I&rsquo;m spending a lot of time with ECS
+lately and native Docker tools support would be a great help. It will
+also make migrating between cluster technologies (e.g. ECS to Mesos)
+much easier.</li>
+<li>Signed data support with <a class="gblog-markdown__link" href="https://github.com/docker/notary">Docker
+Notary</a>. The Notary system provides
+a way to sign and verify content including Docker images and updates. It
+differs from PGP/GPG in that it is more optimised for handling updates
+and provides simpler handling of key revocation in case of compromise.</li>
+<li>Probably the biggest news of the conference was that large parts of
+Docker are to become an open standard. The standard, called the Open
+Container Format, will be maintained by the Linux Foundation under
+the <a class="gblog-markdown__link" href="https://www.opencontainers.org/">Open Container Project</a> banner.
+Docker Inc has donated a container runtime called <a class="gblog-markdown__link" href="http://runc.io/">runC</a>
+which will be the reference implementation. There are a huge number
+of companies which are all participating in this standards effort
+so it seems the possible standards war with
+<a class="gblog-markdown__link" href="https://coreos.com/">CoreOS</a> and
+<a class="gblog-markdown__link" href="https://github.com/coreos/rkt">rkt</a> has been avoided.</li>
+</ul>
+<div class="gblog-post__anchorwrap">
+    <h2 id="faster-cheaper-and-safer-secure-microservice-architectures-using-docker">
+        Faster, Cheaper and Safer: Secure Microservice Architectures using Docker
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#faster-cheaper-and-safer-secure-microservice-architectures-using-docker" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Faster, Cheaper and Safer: Secure Microservice Architectures using Docker" href="#faster-cheaper-and-safer-secure-microservice-architectures-using-docker">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p><a class="gblog-markdown__link" href="https://twitter.com/adrianco">Adrian Cockcroft&rsquo;s</a>
+<a class="gblog-markdown__link" href="http://www.slideshare.net/adriancockcroft/faster-cheaper-safer">presentation</a>
+covered how best to securely deploy containers. The first thing would be
+to read <a class="gblog-markdown__link" href="https://www.docker.com/docker-security">Docker&rsquo;s security page</a>
+which covers best practices when securing Docker deployments. Other
+things of note:</p>
+<ul>
+<li>Keep your containers thin and single purpose. This reduces the attack
+surface and makes auditing easier.</li>
+<li>Add automated pen testing to your build process</li>
+<li>Aim for immutable services with state stored elsewhere.</li>
+<li>For really secure systems, deploy a single container on a virtual
+machine to get the isolation and security benefits of both.</li>
+</ul>
+<div class="gblog-post__anchorwrap">
+    <h2 id="reliably-shipping-containers-in-a-resource-rich-world-using-titan">
+        Reliably shipping containers in a resource rich world using Titan
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#reliably-shipping-containers-in-a-resource-rich-world-using-titan" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Reliably shipping containers in a resource rich world using Titan" href="#reliably-shipping-containers-in-a-resource-rich-world-using-titan">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p><a class="gblog-markdown__link" href="https://twitter.com/diptanu">Diptanu Choudry</a>
+<a class="gblog-markdown__link" href="https://speakerdeck.com/diptanu/reliably-shipping-containers-in-a-resource-rich-world-using-titan">presented</a> a description of how Netflix is deploying
+Docker containers on a system they call Titan. It&rsquo;s a PaaS system
+built using Mesos and other Netflix libraries. It started out just
+running cron jobs and grew from there. They expect to make it open source
+later this year. Other interesting bits:</p>
+<ul>
+<li>Volume management makes use of ZFS snapshots and replication</li>
+<li>Each container in a VPC gets a unique IP address. An ENI is created
+and moved into the container namespace.</li>
+<li>Container (cgroup) metrics are published to <a class="gblog-markdown__link" href="https://github.com/Netflix/atlas/wiki/Overview">Atlas</a>.</li>
+<li>Uses
+<a class="gblog-markdown__link" href="https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance">Eureka</a> for service discovery and advertising.</li>
+<li>For container <a class="gblog-markdown__link" href="http://aws.amazon.com/iam/">IAM</a> roles, each AWS API call goes through a security
+proxy that verifies the source IP (since each container has an IP) and
+container is authorized to use that role. Uses <a class="gblog-markdown__link" href="http://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html">STS</a> to generate temporary
+credentials.</li>
+</ul>
+<div class="gblog-post__anchorwrap">
+    <h2 id="docker-plugins">
+        Docker Plugins
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#docker-plugins" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Docker Plugins" href="#docker-plugins">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p>This was a combination
+<a class="gblog-markdown__link" href="http://www.slideshare.net/weaveworks/dockercon-plugins-session">presentation</a> from some of the key people leading
+the plugin implementation in Docker: <a class="gblog-markdown__link" href="http://progrium.com/blog/">Jeff
+Lindsay</a>, <a class="gblog-markdown__link" href="https://twitter.com/lmarsden">Luke
+Marsden</a>, and
+<a class="gblog-markdown__link" href="https://twitter.com/monadic">Alexis Richardson</a>. The title was originally a secret as the plugin
+feature was only announced at the keynote.</p>
+<ul>
+<li>Major functions of Docker will become pluggable though currently only
+networking and storage are completed. Logging coming soon.</li>
+<li>Plugins are separate processes that are talked to using JSON over HTTP
+via a domain socket. This enables plugins to be written in any
+language.</li>
+<li>Since plugins are processes, they can also be containers which
+simplifies deployment.</li>
+<li>Demonstrated using network
+(<a class="gblog-markdown__link" href="http://weave.works/docker-plugins/index.html">Weave</a>) and volume
+(<a class="gblog-markdown__link" href="https://docs.clusterhq.com/en/1.0.1/labs/docker-plugin.html">Flocker</a>)
+plugins to enable live container migration. You can try
+<a class="gblog-markdown__link" href="http://plugins-demo-2015.github.io/">the demo</a> on your machine.</li>
+</ul>
+<div class="gblog-post__anchorwrap">
+    <h2 id="enabling-microservices--orbitz">
+        Enabling Microservices @ Orbitz
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#enabling-microservices--orbitz" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Enabling Microservices @ Orbitz" href="#enabling-microservices--orbitz">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p>Another combo
+<a class="gblog-markdown__link" href="http://www.slideshare.net/Docker/dockercon-sf-2015-enabling-microservices-orbitz">presentation</a> from <a class="gblog-markdown__link" href="https://twitter.com/bacoboy">Steve Hoffman</a> and <a class="gblog-markdown__link" href="https://twitter.com/tortiepoint">Rick Fast</a> of Orbitz. They talked about Orbitz journey to enable fast, simple deployment of microservices while keeping the existing process as far as possible. The end result is a mostly automated platform using Jenkins to coordinate actions and deployments to a Mesos cluster in their datacenter.</p>
+<ul>
+<li>Use Chef to build the base machines including Docker, Mesos, and
+Consul.</li>
+<li>Uses <a class="gblog-markdown__link" href="https://consul.io/">Consul</a> for service discovery and advertising.</li>
+<li><a class="gblog-markdown__link" href="https://mesosphere.github.io/marathon/">Marathon</a> is used to deploy
+Docker container applications on Mesos.</li>
+<li>HAProxy cluster used to provide access to the applications deployed on
+Mesos. Uses <a class="gblog-markdown__link" href="https://github.com/QubitProducts/bamboo">Bamboo</a> to
+keep the HAProxy configuration in sync with Mesos.</li>
+<li>Before deploying to Mesos, change notification tickets are
+automatically created in ServiceNow by Jenkins. Once the deploy
+completes the ticket is updated with the outcome.</li>
+</ul>
+<div class="gblog-post__anchorwrap">
+    <h2 id="docker-networking">
+        Docker Networking
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#docker-networking" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Docker Networking" href="#docker-networking">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p>Since Docker acquired Socketplane they&rsquo;ve been working hard on
+<a class="gblog-markdown__link" href="http://www.slideshare.net/Docker/dockercon-sf-2015-networking-breakout-49801112">refactoring the networking</a> component of Docker. Madhu Venugopal and Jana
+Radhakrishnan presented a <a class="gblog-markdown__link" href="http://www.slideshare.net/Docker/dockercon-sf-2015-networking-breakout-49801112">breakout
+session</a> on the new networking stack.</p>
+<ul>
+<li>Implemented as a separate library called <code>libnetwork</code> which
+can be used by other projects needing network functions</li>
+<li>Models a Container Networking Model (CNM) consisting of Endpoint, Network,
+and Sandbox.</li>
+<li>Endpoints are service connections. They&rsquo;re separate from containers
+and have a life cycle of their own.</li>
+<li>Networks are collections of endpoints that can communicate.</li>
+<li>A sandbox is a group of endpoints that can be attached to a container.
+They provide an abstraction over the concept of a container.</li>
+<li>Drivers are used to actually talk to the operating system network
+stack. Multiple implementations available with Docker 1.8 including a
+default &ldquo;bridged network&rdquo; driver for backwards compatibility.</li>
+<li>Overlay network driver (using VXLAN tunnels) will also be provided for
+multi-host networking.</li>
+<li>Service discovery and advertising is built in to <code>libnetwork</code> as well.
+It uses DNS to provide this feature in Docker 1.8. Future releases
+will make this a feature that plugins can implement to provide
+alternatives</li>
+<li>Requires a shared datastore (for example Consul) that all Docker hosts
+can see to coordinate networks.</li>
+</ul>
+<div class="gblog-post__anchorwrap">
+    <h1 id="day-2">
+        Day 2
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#day-2" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Day 2" href="#day-2">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h1>
+</div><div class="gblog-post__anchorwrap">
+    <h2 id="general-session-1">
+        General Session
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#general-session-1" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor General Session" href="#general-session-1">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><ul>
+<li>Started with a walk through of how <a class="gblog-markdown__link" href="http://www.businessinsider.com/">Business
+Insider</a> used Docker to decrease
+their release cycle time. They used their existing Puppet infrastructure
+to deploy and manage Docker containers as services. Docker allowed the
+dev and ops teams to work together better without having to radically
+change their processes.</li>
+<li><a class="gblog-markdown__link" href="https://hub.docker.com/">Docker Hub</a> has seen huge growth in use over
+the last year. Docker is working on improving the experience,
+increasing the security and performance at the same time. A beta of a
+new UI is <a class="gblog-markdown__link" href="https://hub-beta.docker.com/">available</a>.</li>
+<li>One of the most popular images on Docker Hub is the Docker registry
+itself. The Docker team is now making a commercial, supported version
+of the registry called <a class="gblog-markdown__link" href="https://blog.docker.com/2015/06/docker-ready-for-production/">Docker Trusted
+Registry</a>.
+This commercial version of the registry supports enterprise features
+like LDAP authentication, role based access control, and auditing.</li>
+<li>Docker Inc. now offers commercial support for Docker deployments.
+Prices start from $150/month and include a license for the Trusted
+Registry.</li>
+<li>Microsoft is integrating Docker support in to its development tools,
+operating system, and cloud platform. Windows applications will be
+able to be containerized and deployed to Windows Server hosts as well.</li>
+<li>Finally a demonstration of a future product labelled Project Orca.
+This is a web UI that brings together all of the Docker tools like
+machine, compose, and swarm. You can administer clusters of Docker
+engines and the applications running on them from a single UI. It&rsquo;s
+still mostly a concept at this point, early signup is available at
+<a class="gblog-markdown__link" href="http://bit.ly/project-orca">http://bit.ly/project-orca</a></li>
+</ul>
+<div class="gblog-post__anchorwrap">
+    <h2 id="the-distributed-system-toolkit-container-patterns-for-modular-distributed-system-design">
+        The distributed system toolkit: Container patterns for modular distributed system design
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#the-distributed-system-toolkit-container-patterns-for-modular-distributed-system-design" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor The distributed system toolkit: Container patterns for modular distributed system design" href="#the-distributed-system-toolkit-container-patterns-for-modular-distributed-system-design">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p><a class="gblog-markdown__link" href="https://twitter.com/brendandburns">Brendan Burns</a> from Google&rsquo;s Cloud Platform team
+<a class="gblog-markdown__link" href="http://www.slideshare.net/Docker/slideshare-burns">presented</a> on
+different ways to think about system design with containers.</p>
+<ul>
+<li>Treat containers like classes in an object oriented system.</li>
+<li>Compose systems out of multiple, reusable, single purpose containers.</li>
+<li>The container is natural boundary for teams and allows you to use
+expert knowledge everywhere and only update the bits that need
+updating.</li>
+<li>Ensure containers are parameterized and that they are documented.</li>
+<li>Sidecar containers let you compose multiple functions together to form
+a new application. The sidecar can extend and enhance existing
+functions.</li>
+<li>Ambassador containers act as an intermediary between an application
+container and another service. This extra level of indirection allows
+for more features to be added without the application container being
+aware.</li>
+<li>Adapter containers interact with the application container to adapt it
+to its deployed environment. For example an adapter container might
+extract metrics from the application container and publish them.</li>
+</ul>
+<div class="gblog-post__anchorwrap">
+    <h2 id="scaling-new-services-from-container-creation-to-automated-deployments">
+        Scaling New Services: From Container Creation to Automated Deployments
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#scaling-new-services-from-container-creation-to-automated-deployments" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Scaling New Services: From Container Creation to Automated Deployments" href="#scaling-new-services-from-container-creation-to-automated-deployments">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p>Presented by <a class="gblog-markdown__link" href="https://twitter.com/brainscott">Brian Scott</a> and <a class="gblog-markdown__link" href="https://twitter.com/dontrebootme">Patrick O&rsquo;Connor</a> from Disney this
+<a class="gblog-markdown__link" href="http://www.slideshare.net/Docker/docke">presentation</a> largely covered similar ground to the Orbitz one. Again
+Mesos, Marathon, Chef, Docker, Jenkins, HAProxy, and Consul work
+together to provide a PaaS like system for automated deployments.</p>
+<div class="gblog-post__anchorwrap">
+    <h2 id="container-hacks-and-fun-images">
+        Container Hacks and Fun Images
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#container-hacks-and-fun-images" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Container Hacks and Fun Images" href="#container-hacks-and-fun-images">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p><a class="gblog-markdown__link" href="https://twitter.com/frazelledazzell">Jessie Frazelle</a> from Docker Inc.
+demonstrated some atypical uses of Docker containers. With some care you
+can deploy GUI/TUI applications <a class="gblog-markdown__link" href="https://blog.jessfraz.com/post/docker-containers-on-the-desktop/">as containers on the desktop</a>. Even ones you
+wouldn&rsquo;t think of like Skype or Chrome.</p>
+<div class="gblog-post__anchorwrap">
+    <h2 id="running-aground-debugging-docker-in-production">
+        Running Aground: Debugging Docker in Production
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#running-aground-debugging-docker-in-production" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Running Aground: Debugging Docker in Production" href="#running-aground-debugging-docker-in-production">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p><a class="gblog-markdown__link" href="https://twitter.com/bcantrill">Brian Cantrell</a> was probably the most engaging presenter there. His
+<a class="gblog-markdown__link" href="http://www.slideshare.net/Docker/day-2-3-25-405running-aground-debugging-docker-in-productionbryan-cantrill">presentation</a>
+on debugging Docker in production covered a lot of the potential
+pitfalls and possible workarounds.</p>
+<ul>
+<li>Docker and microservices are an embodiment of the Unix Philosophy</li>
+<li>Microservices means that you are developing a distributed system even
+if you think it isn&rsquo;t.</li>
+<li>Distributed systems are hard to debug, you need to think of debugging
+systems not instances.</li>
+<li>Failures can be broadly categorized in to Non-fatal/Fatal and
+Implicit/Explicit.</li>
+<li>Fatal failures are easier to debug especially if you can capture the
+in-memory state at the time of failure, e.g. a core dump. Docker lacks
+a core dump feature but it is coming.</li>
+<li>Non-fatal explicit failures require more runtime tools like logs or
+instrumentation to diagnose. Debugging these typically requires things
+like log analysis.</li>
+<li>When deploying with containers, try very hard not to manipulate the
+Docker host in any way. As soon as you do, those Docker hosts become
+compromised and many assumptions about immutability and security are
+broken. If you need something from the host, make sure it&rsquo;s shipped
+somewhere else for safety and easy of access.</li>
+<li>The ability to debug and diagnose production problems is essential for
+Docker deployments to succeed.</li>
+</ul>
+<div class="gblog-post__anchorwrap">
+    <h2 id="final-general-session">
+        Final General Session
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-06-25-dockercon15-notes/#final-general-session" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Final General Session" href="#final-general-session">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p>I don&rsquo;t have too many notes from this, but I do remember one of the more
+impressive final demonstrations was the live migration of a Quake 3
+server while players were connected. You can watch it here
+<a class="gblog-markdown__link" href="https://www.youtube.com/watch?v=mL9AFkJJAq0">https://www.youtube.com/watch?v=mL9AFkJJAq0</a></p>
+]]></content><category scheme="https://www.iocaine.org/tags/notes" term="notes" label="notes"/><category scheme="https://www.iocaine.org/tags/docker" term="docker" label="docker"/><category scheme="https://www.iocaine.org/tags/aws" term="aws" label="aws"/><category scheme="https://www.iocaine.org/tags/aws-ecs" term="aws-ecs" label="aws ecs"/></entry><entry><title type="html">Notes To Self - Reinstall After Rebuild on OS X</title><link href="https://www.iocaine.org/post/2015-04-17-notes-to-self-reinstall-after-rebuild-on-osx/?utm_source=atom_feed" rel="alternate" type="text/html" hreflang="en"/><id>https://www.iocaine.org/post/2015-04-17-notes-to-self-reinstall-after-rebuild-on-osx/</id><published>2015-04-17T00:00:00+00:00</published><updated>2021-12-14T13:31:46+10:00</updated><content type="html"><![CDATA[<p>For various reasons I&rsquo;ve had to reinstall from scratch all the software
+on my work MacBook a lot lately. These are some notes on how I get back
+to usable state from a clean OS X install. I can&rsquo;t imagine this is super
+useful to other people, so consider this skippable content.</p>
+<div class="gblog-post__anchorwrap">
+    <h2 id="set-up-homebrew">
+        Set up Homebrew
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-04-17-notes-to-self-reinstall-after-rebuild-on-osx/#set-up-homebrew" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Set up Homebrew" href="#set-up-homebrew">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p><a class="gblog-markdown__link" href="http://brew.sh/">Homebrew</a> is a package manager that makes it
+significantly easier to get software installed on OS X in a simple way.
+With some extensions <a class="gblog-markdown__link" href="http://caskroom.io/">Homebrew Cask</a>, it can also
+managed GUI installers. This will also install the command line complier
+tools from XCode.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">ruby -e <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install<span class="k">)</span><span class="s2">&#34;</span>
+xcode-select --install
+brew install caskroom/cask/brew-cask
+</code></pre></div><div class="gblog-post__anchorwrap">
+    <h2 id="get-a-nicer-terminal-environment-going">
+        Get a Nicer Terminal Environment Going
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-04-17-notes-to-self-reinstall-after-rebuild-on-osx/#get-a-nicer-terminal-environment-going" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Get a Nicer Terminal Environment Going" href="#get-a-nicer-terminal-environment-going">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p>Even OS X Yosemite ships with Bash 3.2 which is a little old for my
+taste. I also much prefer <a class="gblog-markdown__link" href="http://iterm2.com/">iTerm 2</a> to the built-in
+Terminal application. Once those are installed we can also get our
+dotfiles going by cloning from Github and using
+<a class="gblog-markdown__link" href="http://endot.org/projects/dfm/">dfm</a>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">brew install bash
+brew cask install iterm2
+git clone git@github.com:deverton/dotfiles.git ~/Documents/dotfiles
+<span class="nb">cd</span> ~/Documents/dotfiles
+git checkout deverton
+git submodule init
+git submodule update
+dfm install
+</code></pre></div><p>To make the new Bash the default login for our user we need to tell OS X
+about it.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">sudo -c <span class="s2">&#34;echo &#39;/usr/local/bin/bash&#39; &gt;&gt; /etc/shells&#34;</span>
+sudo -c <span class="s2">&#34;dscl . change /users/</span><span class="nv">$USER</span><span class="s2"> UserShell /bin/bash /usr/local/bin/bash&#34;</span>
+</code></pre></div><p>Now start iTerm2 and all my customisations should be back.</p>
+<div class="gblog-post__anchorwrap">
+    <h2 id="manage-installed-ruby-versions-sanely">
+        Manage Installed Ruby Versions Sanely
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-04-17-notes-to-self-reinstall-after-rebuild-on-osx/#manage-installed-ruby-versions-sanely" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor Manage Installed Ruby Versions Sanely" href="#manage-installed-ruby-versions-sanely">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p>In the great <a class="gblog-markdown__link" href="https://rvm.io/">RVM</a> vs <a class="gblog-markdown__link" href="https://github.com/sstephenson/rbenv">rbenv</a>
+fight I&rsquo;ve come down on the side of rbenv. Homebrew makes it simple to
+install.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">brew install rbenv ruby-build
+rbenv install 2.2.0
+</code></pre></div><p>Which gives us a Ruby 2.2.0 installation in a nice contained manner.</p>
+<div class="gblog-post__anchorwrap">
+    <h2 id="and-the-rest">
+        And The Rest&hellip;.
+        <a data-clipboard-text="https://www.iocaine.org/post/2015-04-17-notes-to-self-reinstall-after-rebuild-on-osx/#and-the-rest" class="gblog-post__anchor gblog-post__anchor--right clip" aria-label="Anchor And The Rest&hellip;." href="#and-the-rest">
+            <svg class="icon gblog_link"><use xlink:href="#gblog_link"></use></svg>
+        </a>
+    </h2>
+</div><p>Install various command line tools. Some tools of noteL</p>
+<ul>
+<li><a class="gblog-markdown__link" href="http://stedolan.github.io/jq/">jq</a> for munging JSON on the command
+line.</li>
+<li>The <a class="gblog-markdown__link" href="http://geoff.greer.fm/ag/">The Silver Searcher</a> is a much
+faster grep with sensible defaults and nice output.</li>
+<li><a class="gblog-markdown__link" href="http://www.vim.org/">vim</a> because of course vim. The keep
+an eye on <a class="gblog-markdown__link" href="http://neovim.org/">Neovim</a>.</li>
+<li><a class="gblog-markdown__link" href="http://www.ivarch.com/programs/pv.shtml">pv</a> to make those long
+running pipe command lines friendly.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">brew install
+    awscli <span class="se">\
+</span><span class="se"></span>    jq <span class="se">\
+</span><span class="se"></span>    maven <span class="se">\
+</span><span class="se"></span>    pv <span class="se">\
+</span><span class="se"></span>    the_silver_searcher <span class="se">\
+</span><span class="se"></span>    vim
+</code></pre></div><p>Install various GUI apps.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">brew cask install
+    boot2docker <span class="se">\
+</span><span class="se"></span>    chrome <span class="se">\
+</span><span class="se"></span>    firefox <span class="se">\
+</span><span class="se"></span>    hipchat <span class="se">\
+</span><span class="se"></span>    java <span class="se">\
+</span><span class="se"></span>    keepassx <span class="se">\
+</span><span class="se"></span>    sourcetree <span class="se">\
+</span><span class="se"></span>    vagrant <span class="se">\
+</span><span class="se"></span>    virtualbox
+</code></pre></div>]]></content><category scheme="https://www.iocaine.org/tags/notes" term="notes" label="notes"/><category scheme="https://www.iocaine.org/tags/osx" term="osx" label="osx"/><category scheme="https://www.iocaine.org/tags/homebrew" term="homebrew" label="homebrew"/></entry></feed>
