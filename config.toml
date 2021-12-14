@@ -1,0 +1,58 @@
+baseURL = "https://www.iocaine.org"
+title = "Dan Everton"
+theme = "hugo-geekblog"
+
+paginate = 5
+pluralizeListTitles = false
+enableEmoji = true
+
+# Required to get well formatted code blocks
+pygmentsUseClasses = true
+pygmentsCodeFences = true
+disablePathToLower = true
+enableGitInfo = true
+
+# Needed for mermaid shortcodes
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.tableOfContents]
+    startLevel = 1
+    endLevel = 9
+
+[taxonomies]
+  author = "authors"
+  tag = "tags"
+
+[mediaTypes]
+  [mediaTypes."application/atom+xml"]
+    suffixes = ["xml"]
+
+[outputFormats]
+  [outputFormats.Atom]
+    # https://validator.w3.org/feed/docs/atom.html#whatIsAtom
+    name = "Atom"
+    mediaType = "application/atom+xml"
+    # generated file = <baseName>.<mediaType."application/atom+xml".suffixes[0]> = atom.xml
+    baseName = "feed"
+    isPlainText = false
+    rel = "alternate"
+    isHTML = false
+    noUgly = true
+    permalinkable = false
+
+[outputs]
+  home = ["HTML", "ATOM"]
+  page = ["HTML"]
+  section = ["HTML"]
+  taxonomy = ["HTML"]
+  term = ["HTML", "ATOM"]
+
+[params]
+  subtitle = "Notes on tech and other topics"
+  description = "Personal blog of Dan Everton with notes on tech and other topics."
+  keywords = []
+  images = []
+
+  # (Optional, default true) Enable or disable adding tags automatically to the main menu.
+  geekblogTagsToMenu = false
