@@ -1,0 +1,27 @@
+---
+header:
+  - name: Github
+    icon: gblog_github
+    ref: "https://github.com/deverton"
+    external: true
+  - name: Twitter
+    icon: twitter
+    ref: "https://twitter.com/dan_everton/"
+    external: true
+  - name: Keybase
+    icon: keybase
+    ref: "https://keybase.io/deverton"
+    external: true
+  - name: Linkedin
+    icon: linkedin
+    ref: "https://www.linkedin.com/in/dan-everton/"
+    external: true
+
+footer:
+  - name: About
+    icon: gblog_person
+    ref: "/about"
+  - name: Contact
+    icon: gblog_email
+    ref: "mailto:dan@iocaine.org"
+    external: true
